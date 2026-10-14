@@ -581,32 +581,45 @@ section{
 
 .skill-bar .bar .html{
     width: 80%;
-    animation: html 2s;
 }
 
 .skill-bar .bar .figma{
     width: 92%;
-    animation: figma 3s;
 }
 
 .skill-bar .bar .javascript{
     width: 78%;
-    animation: javascript 4s;
 }
 
 .skill-bar .bar .css{
     width: 82%;
-    animation: css 5s;
 }
 
 .skill-bar .bar .react{
     width: 62%;
-    animation: react 6s;
 }
 
 .skill-bar .bar .python{
     width: 82%;
-    animation: python 7s;
+}
+
+#skills.show-items .skill-bar .bar .html{
+    animation: html 2s ease forwards;
+}
+#skills.show-items .skill-bar .bar .figma{
+    animation: figma 3s ease forwards;
+}
+#skills.show-items .skill-bar .bar .javascript{
+    animation: javascript 4s ease forwards;
+}
+#skills.show-items .skill-bar .bar .css{
+    animation: css 5s ease forwards;
+}
+#skills.show-items .skill-bar .bar .react{
+    animation: react 6s ease forwards;
+}
+#skills.show-items .skill-bar .bar .python{
+    animation: python 7s ease forwards;
 }
 
 /*Skill right ---------------*/
@@ -658,7 +671,7 @@ section{
 }
 
 .points.marked{
-    animation: glow 0.04s linear forwards;
+    animation: glow 0.15s linear forwards;
     animation-delay: calc(var(--i)*0.05s);
 }
 
@@ -819,6 +832,7 @@ footer{
 
 footer p{
     color: #bdbdbd;
+    text-align: right;
 }
 
 footer a{
@@ -843,8 +857,8 @@ footer a {
 
 .scroll-bottom{
     opacity: 0;
-    transform: translateY(300px);
-    transition: 3s;
+    transform: translateY(50px);
+    transition: 2s;
 }
 
 .scroll-top {
@@ -863,7 +877,6 @@ footer a {
 
 /*Animation for morphing shapes*/
 @keyframes morph {
-    ex
     100% {
         border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
     }
@@ -1039,6 +1052,37 @@ footer a {
     footer p{
         font-size: .8rem;
     }
+    html,
+    body{
+        overflow-x: hidden;
+    }
+
+    .home-content{
+        width: 100%;
+    }
+
+    .img-box{
+        width: min(350px, 100%);
+    }
+
+    .img-box img{
+        width: 100%;
+    }
+
+    .info-box{
+        width: 100%;
+        max-width: 365px;
+    }
+
+    .btn-box{
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .portfolio-gallery{
+        grid-template-columns: minmax(0, 1fr);
+    }
+
 }
 
 @media(max-width:420px){
@@ -1048,7 +1092,7 @@ footer a {
     footer p{
         font-size: .6rem;
     }
-    .filter-buttons .button{
+    .filter-button .button{
         font-size: .8rem;
     }
     .img-about img{
@@ -1059,5 +1103,23 @@ footer a {
     }
     .img-about p{
         font-size: 1rem;
+    }
+    .info-box{
+        width: 100%;
+    }
+
+    .btn-box{
+        width: 100%;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .btn-box .btn{
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .img-about img{
+        width: min(300px, 100%);
     }
 }

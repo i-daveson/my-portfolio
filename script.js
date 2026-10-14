@@ -44,44 +44,79 @@ let changeText = () => {
 changeText();
 setInterval(changeText,3000);
 
-//circle skill//////////////////////////////////
-const circle = document.querySelectorAll('.circle');
-circle.forEach(elem=>{
-    var dots = elem.getAttribute("data-dots");
-    var marked = elem.getAttribute("data-percent");
-    var percent = Math.floor(dots*marked/100);
-    var points = "";
-    var rotate = 360 / dots;
+// Circle skills //////////////////////////////////
 
-    for(let i =0; i<dots; i++){
-        points += `<div class="points" style="--i:${i}; --rot:${rotate}deg"></div>`;
-    }
-    elem.innerHTML = points;
+function startSkillCircles() {
 
-    const pointsMarked =elem.querySelectorAll('.points');
-    for(let i =0; i<percent ; i++){
-        pointsMarked[i].classList.add('marked')
-    }
-})
+    const circles = document.querySelectorAll('.circle');
+
+    circles.forEach(elem => {
+
+        // Clear the old points so the animation can restart
+        elem.innerHTML = "";
+
+        const dots = parseInt(elem.getAttribute("data-dots"));
+        const marked = parseInt(elem.getAttribute("data-percent"));
+
+        const percent = Math.floor(dots * marked / 100);
+        const rotate = 360 / dots;
+
+        let points = "";
+
+        // Create all the points
+        for(let i = 0; i < dots; i++){
+
+            points += `
+                <div class="points"
+                     style="--i:${i}; --rot:${rotate}deg">
+                </div>
+            `;
+        }
+
+        elem.innerHTML = points;
+
+        // Mark the required percentage
+        const pointsMarked = elem.querySelectorAll('.points');
+
+        for(let i = 0; i < percent; i++){
+            pointsMarked[i].classList.add('marked');
+        }
+    });
+}
 
 //mix it up portfolio section
 var mixer = mixitup('.portfolio-gallery');
 
 
 
-//Active menu//////////////////////////////////
+// Active menu //////////////////////////////////
 let menuLi = document.querySelectorAll('header ul li a');
-let section = document.querySelectorAll('section');
+let sections = document.querySelectorAll('section');
 
-function activeMenu(){
-    let len = section.length;
-    while(--len && window.scrollY * 97 <section[len].offsetTop){}
-    menuLi.forEach(sec => sec.classList.remove('active'));
-    menuLi[len].classList.add('active');
+function activeMenu() {
+
+    let scrollPosition = window.scrollY + 150;
+
+    sections.forEach((section, index) => {
+
+        let sectionTop = section.offsetTop;
+        let sectionHeight = section.offsetHeight;
+
+        if (
+            scrollPosition >= sectionTop &&
+            scrollPosition < sectionTop + sectionHeight
+        ) {
+            menuLi.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            menuLi[index].classList.add('active');
+        }
+    });
 }
 
 activeMenu();
-window.addEventListener("scroll",activeMenu);
+window.addEventListener('scroll', activeMenu);
 
 
 // Sticky navbar //////////////////////////////////
@@ -94,7 +129,7 @@ window.addEventListener("scroll",function(){
 let menuIcon =document.querySelector("#menu-icon");
 let navlist =document.querySelector(".navlist");
 
-menuIcon.oneclick = ()=>{
+menuIcon.onclick = ()=>{
     menuIcon.classList.toggle("bx-x");
     navlist.classList.toggle("open");
 }
@@ -104,22 +139,48 @@ window.onscroll = ()=>{
     navlist.classList.remove("open");
 }
 
-// practice///////////////////
-const observer = new IntersectionObserver((entries)=>{
-    entries.forEach((entry)=>{
-        if(entry.isIntersecting){
+
+// Scroll animation //////////////////////////
+
+const observer = new IntersectionObserver((entries) => {
+
+    entries.forEach((entry) => {
+
+        if (entry.isIntersecting) {
+
             entry.target.classList.add("show-items");
-        }else{
+
+            if (entry.target.id === "skills") {
+                startSkillCircles();
+            }
+
+        } else {
+
             entry.target.classList.remove("show-items");
+
         }
+
     });
+
+}, {
+    threshold: 0.2
 });
 
+
+// Observe normal scroll animations
 const scrollScale = document.querySelectorAll(".scroll-scale");
-scrollScale.forEach((el)=>observer.observe(el));
+scrollScale.forEach((el) => observer.observe(el));
 
 const scrollBottom = document.querySelectorAll(".scroll-bottom");
-scrollBottom.forEach((el)=>observer.observe(el));
+scrollBottom.forEach((el) => observer.observe(el));
 
 const scrollTop = document.querySelectorAll(".scroll-top");
-scrollTop.forEach((el)=>observer.observe(el));
+scrollTop.forEach((el) => observer.observe(el));
+
+
+// Observe Skills section
+const skillsSection = document.querySelector("#skills");
+
+if (skillsSection) {
+    observer.observe(skillsSection);
+}
